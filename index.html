@@ -521,7 +521,8 @@ $('form').addEventListener('submit', async e => {
   $('send').disabled = false; $('send').textContent = 'Записаться';
   if (!r.ok) {
     if (r.error === 'taken' || r.error === 'bad_slot') { S.hour = null; await loadBusy(); }
-    return err(ERR[r.error] || 'Не удалось записаться. Позвоните: 8-0297-817-060.', r.error === 'taken' ? 'c3' : null);
+    console.error('BOOKING ERROR:', r);
+return err(ERR[r.error] || ('Ошибка API: ' + String(r.error || 'неизвестная ошибка')), r.error === 'taken' ? 'c3' : null);
   }
   profile.set({name: rec.name, phone, car: rec.car});
   (S.busy[rec.date] = S.busy[rec.date] || []).push(rec.hour);
